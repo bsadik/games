@@ -1,0 +1,25 @@
+#board {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 2px black solid;
+}
+
+td {
+    width: 85px;
+    height: 85px;
+    background-color: #389B49;
+    border: 4px black solid;
+}
+
+.cells {
+    border-radius: 100%;
+    width: 85%;
+    height: 85%;
+    margin: auto;
+}
+
+#box {
+    right: 15%;
+    top: 10%;
+    position: absolute;
+}

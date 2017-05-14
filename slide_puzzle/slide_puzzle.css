@@ -1,0 +1,26 @@
+#board {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 5px;
+    background-color: lightgrey;
+}
+
+#board td {
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    background-color: dodgerblue;
+    color: white;
+    font-size: 72px;
+    font-family: "Helvetica", "Arial", "sans-serif";
+}
+
+body {
+    background-color: #353535;
+}
+
+#suh {
+    position: absolute;
+    right: 0%;
+    color: white;
+}

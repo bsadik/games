@@ -1,0 +1,94 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<script>
+			var ROWS = 5, COLS = 5;
+			
+			var deck = new Array(81);
+			var clicked = [], made = [];
+			var count = 0, sets = 0;
+			populateArray();
+			
+			document.writeln("<h1 id='counter'>Sets Completed: 0</h1>");
+			document.writeln("<table id='table' style='width:50%; text-align:center; border:0;'>");
+			for (var i = 0; i < ROWS; i++) {
+				document.writeln("<tr>");
+				for (var j = 0; j < COLS; j++) {
+					var index = Math.floor(Math.random() * (70 - count));
+					document.writeln("<td><img src='set/" + deck[index] + "' onClick='addToClicked(this.id)' id='" + deck[index].substring(0, (deck[index].length - 4)) + "'/></td>");
+					count++;
+					deck.splice(index, 1);
+				}
+				document.writeln("</tr>");
+			}
+			document.writeln("</table>");
+			
+			function populateArray() {
+				var count = 0;
+				for (var i = 0; i < 3; i++) {
+					for (var j = 0; j < 3; j++) {
+						for (var k = 0; k < 3; k++) {
+							for (var l = 0; l < 3; l++) {
+								deck[count++] = i + "" + j + "" + k + "" + l + ".gif";
+							}
+						}
+					}
+				}
+			}
+			
+			function addToClicked(id) {
+				if (!made.includes(id)) {
+					if (clicked.includes(id)) {
+						document.getElementById(id).style.border = "";
+						clicked.splice(clicked.indexOf(id), 1);
+					} else if (clicked.length < 3) {
+						clicked.push(id);
+						document.getElementById(id).style.border = "solid #0000FF";
+					}
+				}
+			}
+			
+			function checkSet() {
+				var isValid = true;
+				for (var i = 0; i < 4; i++) {
+					var one = clicked[0].charAt(i);
+					var two = clicked[1].charAt(i);
+					var three = clicked[2].charAt(i);
+					
+					if (one == two && two != three) {
+						isValid = false;
+						break;
+					}
+					if (one == three && one != two) {
+						isValid = false;
+						break;
+					}
+					if (two == three && one != two) {
+						isValid = false;
+						break;
+					}
+				}
+				
+				if (isValid) {
+					document.getElementById("counter").innerHTML = "Sets Completed: " + ++sets;
+					for (var i = 0; i < 3; i++) {
+						var temp = clicked.pop();
+						made.push(temp);
+						document.getElementById(temp).style.opacity = 0;
+					}
+				} else {
+					for (var i = 0; i < 3; i++) {
+						document.getElementById(clicked.pop()).style.border = "";
+					}
+					window.alert("Not a set!");
+				}
+			}
+
+		</script>
+	</head>
+	<body>
+		<form>
+			<input type="button" value="Check Set!" onClick="checkSet()"/>
+		</form>
+	</body>
+</html>

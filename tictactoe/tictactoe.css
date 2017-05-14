@@ -1,0 +1,25 @@
+#board {
+    table-layout: fixed;
+    border: solid black 2px;
+    background-color: black;
+}
+
+.cells {
+    width: 75px;
+    height: 75px;
+    background-color: white;
+}
+
+#result {
+    top: 10%;
+    left: 20%;
+    position: fixed;
+    color: yellow;
+    text-shadow:
+        -1px -1px 0 red,
+        -1px 1px 0 red,
+        1px -1px 0 red,
+        1px 1px 0 red;
+    font-size: 72px;
+    padding: 5px;
+}

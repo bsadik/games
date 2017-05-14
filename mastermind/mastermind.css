@@ -1,0 +1,140 @@
+#board {
+    border: solid black 1px;
+    table-layout: fixed;
+    background-color: black;
+}
+
+th, td {
+    width: 75px;
+    height: 75px;
+}
+
+#board td {
+    border: solid black 1px;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 60px;
+    background-color: white;
+}
+
+.buttons:hover {
+    border: solid black 1px;
+}
+
+#menu {
+    position: absolute;
+    table-layout: fixed;
+    top: 85%;
+    border-spacing: 5px;
+    border-collapse: separate;
+}
+
+td.hintsTables {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints0 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints1 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints2 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints3 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints4 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints5 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints6 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints7 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints8 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints9 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints10 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints11 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints12 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints13 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#hints14 td {
+    border: 0;
+    background-color: lightgrey;
+}
+
+#result {
+    bottom: 20%;
+    right: 36%;
+    position: fixed;
+    color:yellow;
+    text-shadow:
+        -1px -1px 0 red,
+        -1px 1px 0 red,
+        1px -1px 0 red,
+        1px 1px 0 red;
+    font-size: 72px;
+    padding: 5px;
+}
+
+#stats {
+    bottom: 5%;
+    right: 1%;
+    position: fixed;
+}
+
+#start {
+    top: 45%;
+    left: 41%;
+    font-size: 72px;
+    background-color: red;
+    color: white;
+    position: fixed;
+    padding: 5px;
+}

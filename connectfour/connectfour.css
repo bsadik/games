@@ -1,0 +1,34 @@
+#c4board {
+    table-layout: fixed;
+    background-color: dodgerblue;
+    border-spacing: 5px;
+}
+
+#c4board td {
+    border-radius: 200px;
+    width: 75px;
+    height: 75px;
+    background-color: white;
+}
+
+#c4header {
+    table-layout: fixed;
+    border-spacing: 5px;
+    text-align: center;
+}
+
+#c4header td {
+    border-radius: 100px;
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    opacity: 0.5;
+    color: yellow;
+    text-shadow:
+        -1px -1px 0 white,
+        -1px 1px 0 white,
+        1px -1px 0 white,
+        1px 1px 0 white;
+    font-size: 60px;
+    text-align: center;
+}

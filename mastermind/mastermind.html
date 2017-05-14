@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type = "text/css" href="mastermind.css"/>
+        <script>
+            var available = ['B', 'C', 'G', 'P', 'R', 'S', 'Y'];
+            var turn = 0, MAX = 15, curClick = 0, curGuess = "";
+            var startTime, endTime;
+            var gameOver = false;
+            var answer;
+
+            main();
+
+            function createBoard() {
+                document.writeln("<div id='mastermind_container'>");
+                document.writeln("<table id='board'>");
+                for (var i = 0; i < 5; i++) {
+                    document.writeln("<tr>");
+                    for (var j = 0; j < MAX; j++) {
+                        document.writeln("<td id='" + j + "" + i + "'></td>");
+                    }
+                    document.writeln("<td id='q" + i + "'style='background-color: lightgrey;'>?</td>");
+                    document.writeln("</tr>");
+                }
+                document.writeln("<tr>");
+                for (var i = 0; i < MAX; i++) {
+                    document.writeln("<td style='background-color: lightgrey;' id='hint" + i + "' class='hintsTables'>");
+                    document.writeln("<table id='hints" + i + "'><tr>");
+                    for (var j = 0; j < 5; j++) {
+                        document.writeln("<td id='" + i + "h" + j + "'></td>");
+                    }
+                    document.writeln("</tr></table>");
+                    document.writeln("</td>");
+                }
+                document.writeln("</tr>");
+                document.writeln("</table>");
+
+                document.writeln("<table id='menu'>");
+                document.writeln("<tr>");
+
+                document.writeln("<td style='background-color: blue;' class='buttons' onClick='clickMenuButton(\"blue\")'></td>");
+                document.writeln("<td style='background-color: cyan;' class='buttons' onClick='clickMenuButton(\"cyan\")'></td>");
+                document.writeln("<td style='background-color: green;' class='buttons' onClick='clickMenuButton(\"green\")'></td>");
+                document.writeln("<td style='background-color: pink;' class='buttons' onClick='clickMenuButton(\"pink\")'></td>");
+                document.writeln("<td style='background-color: red;' class='buttons' onClick='clickMenuButton(\"red\")'></td>");
+                document.writeln("<td style='background-color: silver;' class='buttons' onClick='clickMenuButton(\"silver\")'></td>");
+                document.writeln("<td style='background-color: yellow;' class='buttons' onClick='clickMenuButton(\"yellow\")'></td>");
+                document.writeln("<td>");
+                document.writeln("<form><input type='button' value='Submit Row' onClick='submitGuess()'/><br/>");
+                document.writeln("<form><input type='button' value='Undo Square' onClick='undo()'/>");
+                document.writeln("<br/><input type='button' value='Reset Row' onClick='resetSquares()'/></form>");
+                document.writeln("</td>");
+
+                document.writeln("</tr>");
+                document.writeln("</table>");
+
+                document.writeln("<div id='result'></div>");
+                document.writeln("<div id='stats'></div>");
+                document.writeln("</div>");
+            }
+
+
+            function pattern(pat) {
+                if (pat != undefined) {
+                    this.ra = [pat.charAt(0), pat.charAt(1), pat.charAt(2), pat.charAt(3), pat.charAt(4)];
+                } else {
+                this.ra = new Array(5);
+
+                    for (var i = 0; i < 5; i++) {
+                        var x = Math.floor(Math.random() * 7);
+
+                        this.ra[i] = available[x];//.charAt(0);
+                    }
+                }
+            }
+
+
+            function compare(guess) {
+                var b = 0, w = 0;
+                var output = "";
+                var tempans = [answer.ra[0], answer.ra[1], answer.ra[2], answer.ra[3], answer.ra[4]];
+                var tempguess = [guess.ra[0], guess.ra[1], guess.ra[2], guess.ra[3], guess.ra[4]];
+
+                for (var i = 0 ; i < tempans.length; i++) {
+                    if (tempans[i] == tempguess[i]) {
+                        b++;
+                        tempans.splice(i, 1);
+                        tempguess.splice(i--, 1);
+                    }
+                }
+                for (var i = 0; i < tempans.length; i++) {
+                    if (tempguess.includes(tempans[i])) {
+                        w++;
+                        tempguess.splice(tempguess.indexOf(tempans[i]), 1);
+                        tempans.splice(i--, 1);
+
+                    }
+                }
+
+                for (var i = 0; i < b; i++) {
+                    output += 'B';
+                }
+                for (var i = 0; i < w; i++) {
+                    output += 'W';
+                }
+                return output;
+            }
+
+            function clickMenuButton(color) {
+                if (gameOver) {
+                    return;
+                }
+                if (curClick < 5) {
+                    document.getElementById(turn + "" + curClick++).style.backgroundColor = color;
+                    curGuess += color.charAt(0).toUpperCase();
+                }
+            }
+
+            function undo() {
+                if (curClick < 1) {
+                    return;
+                }
+                document.getElementById(turn + "" + --curClick).style.backgroundColor = "white";
+                curGuess = curGuess.substring(0, curClick);
+            }
+
+            function resetSquares() {
+                if (gameOver) {
+                    return;
+                }
+                curClick = 0;
+                for (var i = 0; i < 5; i++) {
+                    document.getElementById(turn + "" + i).style.backgroundColor = "white";
+                }
+                curGuess = "";
+            }
+
+            function submitGuess() {
+                if (curClick != 5) {
+                    return;
+                }
+
+                curClick = 0;
+
+                var temp = new pattern(curGuess);
+                var comp = compare(temp);
+                curGuess = "";
+
+                for (var i = 0; i < 5; i++) {
+                    if (comp.charAt(i) == 'B') {
+                        document.getElementById(turn + "h" + i).style.backgroundColor = "black";
+                    } else if (comp.charAt(i) == 'W') {
+                        document.getElementById(turn + "h" + i).style.backgroundColor = "white";
+                    }
+                }
+
+                if (checkEqual(comp, "BBBBB")) {
+                    win();
+                    return;
+                }
+
+                if (turn++ == 14) {
+                    lose();
+                    return;
+                }
+
+             }
+
+            function checkEqual(one, two) {
+                for (var i = 0; i < 5; i++) {
+                    if (one.charAt(i) != two.charAt(i)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            function win() {
+                gameOver = true;
+                document.getElementById("result").innerHTML = "YOU WIN!!";
+                reveal();
+                stats();
+
+/* Something I tried to make the game look better but it looked worse.
+                for (var i = turn + 1; i < 15; i++) {
+                    for (var j = 0; j < 5; j++) {
+                        var c = "";
+                        if (answer.ra[j] == 'B') {
+                            c = "blue";
+                        } else if (answer.ra[j] == 'C') {
+                            c = "cyan";
+                        } else if (answer.ra[j] == 'G') {
+                            c = "green";
+                        } else if (answer.ra[j] == 'P') {
+                            c = "pink";
+                        } else if (answer.ra[j] == 'R') {
+                            c = "red";
+                        } else if (answer.ra[j] == 'S') {
+                            c = "silver";
+                        } else if (answer.ra[j] == 'Y') {
+                            c = "yellow";
+                        }
+                        document.getElementById(i + "" + j).style.backgroundColor = c;
+                    }
+                }
+*/
+            }
+
+            function stats() {
+                var d = new Date();
+                endTime = d.getTime();
+                var elapsed = (endTime - startTime) / 1000;
+                var minS = "", secS = "";
+                min = Math.floor(elapsed / 60);
+                sec = Math.floor(elapsed % 60 * 10) / 10;
+
+                var output = "";
+                output += "<b>Performance Statistics:</b><br/>";
+
+                if (min > 0) {
+                    minS += min + ":";
+                    if (sec < 10) {
+                        secS += "0";
+                    }
+                    secS += sec;
+                } else {
+                    secS += sec + " seconds";
+                }
+
+                output += "Time Elapsed: " + minS + secS;
+                output += "<br/>Guesses: " + (turn + 1);
+                elapsed /= (turn + 1);
+                min = Math.floor(elapsed / 60);
+                sec = Math.floor(elapsed % 60 * 10) / 10;
+
+                minS = "";
+                secS = "";
+                if (min > 0) {
+                    minS += min + ":";
+                    if (sec < 10) {
+                        secS += "0";
+                    }
+                    secS += sec;
+                } else {
+                    secS += sec + " seconds";
+                }
+                output += "<br/>Avg. Time Per Guess: " + minS + secS;
+
+                document.getElementById("stats").innerHTML = output;
+            }
+
+            function lose() {
+                gameOver = true;
+                document.getElementById("result").innerHTML = "YOU LOSE!";
+                reveal();
+            }
+
+            function reveal() {
+                for (var i = 0; i < 5; i++) {
+                    var c = "";
+                    if (answer.ra[i] == 'B') {
+                        c = "blue";
+                    } else if (answer.ra[i] == 'C') {
+                        c = "cyan";
+                    } else if (answer.ra[i] == 'G') {
+                        c = "green";
+                    } else if (answer.ra[i] == 'P') {
+                        c = "pink";
+                    } else if (answer.ra[i] == 'R') {
+                        c = "red";
+                    } else if (answer.ra[i] == 'S') {
+                        c = "silver";
+                    } else if (answer.ra[i] == 'Y') {
+                        c = "yellow";
+                    }
+                    document.getElementById("q" + i).innerHTML = "";
+                    document.getElementById("q" + i).style.backgroundColor = c;
+                }
+            }
+
+            function main() {
+                answer = new pattern();
+
+                createBoard();                
+/*
+                var output = "";
+                for (var i = 0; i < 5; i++) {
+                    output += answer.ra[i];
+                }
+                document.getElementById("stats").innerHTML = output;
+*/
+                var d = new Date();
+                startTime = d.getTime();
+            }
+
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
