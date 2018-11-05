@@ -1,0 +1,58 @@
+img {
+    width: 100px;
+    border: 1px solid white;
+}
+
+img:hover {
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+.hand {
+    position: absolute;
+    width: 80%;
+}
+
+#p0 {
+    top: 80%;
+}
+
+#p1 {
+    top: 5%;
+}
+
+#mid {
+    position: absolute;
+    top: 40%;
+    left: 42%;
+
+}
+
+#mid img {
+    height: 145px;
+}
+
+#go {
+    position: absolute;
+    right: 3%;
+    top: 45%;
+    height: 50px;
+    width: 50px;
+    background-color: tan;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+    font-family: sans-serif;
+}
+
+#go:hover {
+    background-color: goldenrod;
+}
+
+#turn {
+    position: absolute;
+    right: 1.9%;
+    top: 43%;
+    font-weight: bold;
+    font-family: sans-serif;
+}
